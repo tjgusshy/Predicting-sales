@@ -1,0 +1,130 @@
+---
+title: "Predicting if price reduction will lead to an increase in sales"
+author: "ELegushi Adetunji"
+date: "3/20/2022"
+output: 
+        github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This lab will be used to show if factors like price deduction,coupon usage and cart will lead to increase in sales.
+
+Use this data to determine how these factors influence sales.
+
+Predict sales of canned tomatoes during a week in which you use a shopping cart notice, a coupon, and reduce price by 1 cent.
+
+
+
+```{r library}
+#loading the library 
+library(pacman)
+p_load(tidyverse,statsr,broom,openintro,janitor,infer,readxl)
+library(broom)
+
+
+```
+
+
+```{r summary}
+#loading the data
+Grocery <- read_excel("C:/Users/adeju/Downloads/Grocery.xlsx")
+glimpse(Grocery)
+
+```
+
+```{r cleaning the data}
+
+Grocery %>% 
+  clean_names()->Grocery
+
+```
+
+
+Performing EDA
+
+```{r looking for relationship}
+library(GGally)
+ggpairs(Grocery)
+
+```
+
+```{r modelling}
+#using the linear model 
+m =lm(sales ~ coupon+cart_notice+ price_reduction, data = Grocery)
+
+
+```
+
+
+
+```{r}
+summary(m)
+```
+
+### Interpreting the model
+
+intercept= this means that when all the predictors used (coupon,cart_notice,price_reduction) are all zero then we can expect to  sell 14.5 cases of tomatoes per. This is usually not the case for this store bcause at one point in time a customer might use their coupon.
+
+`coupon` = this has two levels, when the coupon was used and when it was not used, analysing the report here means, when the coupon was yes or used() at -1.167, sales went down by -1.167 than when it was not used and looking at the p_value, this is not a good predictor of sales and in the new model, it will be removed.
+
+`cart_notice` = another categorical data, yes or no, this indicates that, when cart was used the model predicts that sales will increase by 20.167. A good predictor
+of sales.
+
+`price_reduction` = this is a numerical variable, and according to the model, when there is price reduction, the model predicts that sales will go up by 6.375
+
+Looking at the the R-Squared, its is high but removing coupon will increase the r-squared in an improved model.
+
+To forecast using the model, the linear equation will be
+sales = 14.5-1.167(coupon)+20.167(cart_notice)+6.375(price_reduction)
+
+
+A new model will be used and compared to the previous r-squared to see the winner, in this model, coupon will be removed.
+
+```{r moddel 2}
+m2 =lm(sales ~cart_notice+ price_reduction, data = Grocery)
+
+```
+
+looking at the coefficients
+```{r}
+summary(m2)
+
+```
+
+looking at the model, the adjusted r-squared as increased from 0.84 to 0.85 and the second model did a better job at predicting sales.
+we can either use forecast manually or use the predict fuction.
+
+```{r prediction1}
+p=data.frame(cart_notice ="Yes", price_reduction = 2)
+
+```
+
+```{r prediction}
+predict(m2,p,interval = "prediction",level = 0.95)
+
+```
+the model predict with a confidence level  of 0.95 that when price reduction is at 2% and cart_notice is yes, sales might increase and will always  be between 
+$34 and $58.
+
+looking at sales for that period 
+
+```{r sales}
+Grocery %>% 
+  filter(cart_notice == "Yes" & price_reduction == 2) %>% 
+select(cart_notice,price_reduction,sales)
+```
+
+
+The model predicted that sales will always between $34 and $58 and looking at when sales is 40 a nd 44 in the original dataand  when price reduction is 2 and cart_notice is yes, sales is between $40 and $44.
+
+
+##Observations
+We can conclude that when there is price reduction  all things being held equal,sales might increase.
+We can also say that when cart_notice is yes sales might increase too as long as every other variable is held equal.
+
+
+
+

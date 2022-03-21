@@ -19,7 +19,7 @@ In order to avoid inefficiencies costing your company customers and revenue, you
 
 When faced with an interesting data like this, we use multiple regression analysis to uncover the relationship between what want to predict an the prdedictors, regression analysis was used to show the relationship between sales and price reduction, cart usage and coupon. Regression analysis will show us what causes increase in sales and what does not cause an increase in  sales. 
 
-R programming language was used to carry out the prediction, as it is the best tool alongside python in doing big data analystics.
+R programming language was used to carry out the prediction, as it is the best tool alongside python in doing big data analytics.
 
 ## Findings
 

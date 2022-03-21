@@ -1,7 +1,7 @@
 
 # Business Problem
 
-Imagine being able to know what influences your sales as a busines  organisation, that is , to know factors that contibustes directly to increase or decrease in sales.
+Imagine being able to know what influences your sales as a busines  organisation, that is , to know factors that contribustes directly to increase or decrease in sales.
 
 As a data analyst, helping business solve cases like this is paramount, when we can predict the future, we are creating the future ourselves.
 
